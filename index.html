@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Tsola — Designer & Developer</title>
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="apple-touch-icon" href="favicon.png">
@@ -44,8 +44,25 @@ body{
   min-height:100vh;
   padding-bottom:100px;
   transition:background var(--transition),color var(--transition);
+  cursor: auto; /* default fallback */
 }
 a{text-decoration:none;color:inherit}
+
+/* ── CUSTOM ARROW CURSOR ── */
+* {
+  cursor: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="%230C0C0A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"%3E%3Cpath d="M12 2v20M2 12h20"/%3E%3C/svg%3E') 10 10, auto;
+}
+/* For dark mode cursor color */
+[data-theme="dark"] * {
+  cursor: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="%23F0F0EE" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"%3E%3Cpath d="M12 2v20M2 12h20"/%3E%3C/svg%3E') 10 10, auto;
+}
+/* Buttons and interactive elements get pointer */
+button, a, .nav-item, .filter-btn, .proj-card, .contact-link, .btn-cta, .btn-outline, .form-submit {
+  cursor: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="%230C0C0A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"%3E%3Cpath d="M12 2v20M2 12h20"/%3E%3C/svg%3E') 10 10, pointer;
+}
+[data-theme="dark"] button, [data-theme="dark"] a, [data-theme="dark"] .nav-item, [data-theme="dark"] .filter-btn, [data-theme="dark"] .proj-card, [data-theme="dark"] .contact-link, [data-theme="dark"] .btn-cta, [data-theme="dark"] .btn-outline, [data-theme="dark"] .form-submit {
+  cursor: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="%23F0F0EE" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"%3E%3Cpath d="M12 2v20M2 12h20"/%3E%3C/svg%3E') 10 10, pointer;
+}
 
 /* centered container */
 .container{
@@ -54,16 +71,7 @@ a{text-decoration:none;color:inherit}
   padding:0 24px;
 }
 
-/* ── CURSOR ── */
-.cursor{
-  width:8px;height:8px;background:var(--fg);border-radius:50%;
-  position:fixed;top:0;left:0;pointer-events:none;z-index:9999;
-  transform:translate(-50%,-50%);
-  mix-blend-mode:difference;
-}
-@media(hover:none){.cursor{display:none}}
-
-/* ── TOP BAR (no logo) ── */
+/* ── TOP BAR ── */
 .topbar{
   display:flex;justify-content:flex-end;align-items:center;
   padding:24px 32px;
@@ -106,7 +114,7 @@ a{text-decoration:none;color:inherit}
 .nav-item{
   width:44px;height:44px;border-radius:50%;
   display:flex;align-items:center;justify-content:center;
-  cursor:pointer;transition:background 0.2s,transform 0.2s;position:relative;
+  transition:background 0.2s,transform 0.2s;position:relative;
 }
 .nav-item:hover{background:rgba(12,12,10,0.07); transform:scale(0.96)}
 .nav-item.active{background:rgba(12,12,10,0.1)}
@@ -137,7 +145,7 @@ a{text-decoration:none;color:inherit}
 }
 .reveal.visible{opacity:1;transform:translateY(0)}
 
-/* ── HERO (centered, minimal) ── */
+/* ── HERO (centered) ── */
 .hero{
   min-height:85vh;
   display:flex;align-items:center;
@@ -165,12 +173,15 @@ a{text-decoration:none;color:inherit}
   margin-top:8px;
 }
 .hero-sub strong{color:var(--fg);font-weight:800}
-.hero-actions{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:36px;flex-wrap:wrap}
+.hero-identity{
+  font-size:14px;color:var(--fg-mid);margin:16px auto 0;max-width:480px;
+}
+.hero-actions{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:32px;flex-wrap:wrap}
 .btn-cta, .btn-outline{
   display:inline-flex;align-items:center;justify-content:center;
   gap:6px;border:none;border-radius:100px;
   font-size:14px;font-family:inherit;font-weight:600;
-  cursor:pointer;transition:all 0.2s cubic-bezier(0.2,0.9,0.4,1.1);
+  transition:all 0.2s cubic-bezier(0.2,0.9,0.4,1.1);
   padding:12px 28px;
 }
 .btn-cta{
@@ -257,7 +268,10 @@ a{text-decoration:none;color:inherit}
   background:rgba(12,12,10,0.03);border:1px solid var(--border);
   overflow:hidden;
 }
-.quote-text{font-size:17px;font-weight:700;line-height:1.5;color:var(--fg);margin-bottom:10px}
+.quote-text{
+  font-size:18px;font-weight:700;line-height:1.4;color:var(--fg);margin-bottom:10px;
+  font-style:italic;
+}
 .quote-attr{font-size:11px;color:var(--fg-dim);font-weight:500}
 .exp-item{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--border)}
 .exp-item:last-child{border-bottom:none;padding-bottom:0}
@@ -269,7 +283,7 @@ a{text-decoration:none;color:inherit}
 .v-text{font-size:12px;color:var(--fg-mid);line-height:1.6}
 .v-text strong{color:var(--fg);font-weight:600}
 
-/* ── WORK SECTION (centered) ── */
+/* ── WORK SECTION ── */
 .work-header{text-align:center;margin-bottom:48px}
 .work-filter{display:flex;justify-content:center;gap:8px;margin-top:20px;flex-wrap:wrap}
 .filter-btn{
@@ -316,7 +330,7 @@ a{text-decoration:none;color:inherit}
   display:inline-flex;align-items:center;gap:4px;
 }
 
-/* ── CASE OVERLAY ── */
+/* ── CASE OVERLAY (minimal) ── */
 .case-overlay{
   position:fixed;inset:0;z-index:500;
   background:var(--bg);overflow-y:auto;
@@ -339,18 +353,8 @@ a{text-decoration:none;color:inherit}
   padding:6px 18px;border-radius:100px;
 }
 .case-body{max-width:720px;margin:0 auto;padding:48px 32px 80px}
-.case-eyebrow{font-size:10px;font-weight:700;letter-spacing:2px;color:var(--fg-dim);margin-bottom:12px}
-.case-title{font-size:clamp(32px,6vw,56px);font-weight:800;line-height:1.05;margin-bottom:24px}
-.case-meta{display:flex;gap:28px;flex-wrap:wrap;margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--border)}
-.case-meta-label{font-size:10px;font-weight:700;letter-spacing:1px;color:var(--fg-dim)}
-.case-meta-val{font-size:13px;font-weight:600}
-.case-section{margin-bottom:36px}
-.case-section h3{font-size:13px;font-weight:700;letter-spacing:1.5px;margin-bottom:12px;color:var(--fg-dim)}
-.case-section p{font-size:15px;line-height:1.8;color:var(--fg-mid)}
-.case-tags{display:flex;gap:8px;flex-wrap:wrap}
-.case-tag{font-size:11px;border:1px solid var(--border-mid);padding:4px 12px;border-radius:100px}
 
-/* ── CTA SECTION (contact) ── */
+/* ── CTA + CONTACT (mobile social icons only) ── */
 .cta-section{padding:80px 0;border-top:1px solid var(--border)}
 .cta-inner{max-width:780px;margin:0 auto;text-align:center}
 .cta-title{
@@ -359,7 +363,10 @@ a{text-decoration:none;color:inherit}
 }
 .cta-title .dim{color:var(--fg-dim)}
 .cta-sub{font-size:14px;color:var(--fg-mid);line-height:1.7;margin:20px auto 32px;max-width:460px}
-.contact-links{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;margin:32px 0 0}
+.contact-links{
+  display:flex;flex-wrap:wrap;justify-content:center;gap:14px;
+  margin:32px 0 0;
+}
 .contact-link{
   display:inline-flex;align-items:center;gap:10px;
   padding:8px 20px;background:var(--card);border:1px solid var(--border-mid);
@@ -373,7 +380,86 @@ a{text-decoration:none;color:inherit}
 .cl-label{font-size:12px;font-weight:700;margin-left:2px}
 .cl-val{font-size:11px;color:var(--fg-dim);margin-left:6px}
 
-/* contact form */
+/* Mobile: hide labels and text, keep only icons */
+@media (max-width: 600px) {
+  .contact-link {
+    padding: 10px 14px;
+    gap: 0;
+  }
+  .cl-label, .cl-val {
+    display: none;
+  }
+  .cl-icon {
+    margin: 0;
+  }
+  .contact-links {
+    gap: 10px;
+  }
+  .hero-identity {
+    font-size: 13px;
+    padding: 0 16px;
+  }
+  .section {
+    padding: 56px 0;
+  }
+  .bento {
+    gap: 10px;
+  }
+  .card {
+    padding: 18px;
+  }
+  .projects-grid {
+    gap: 10px;
+  }
+  .proj-thumb, .proj-card.featured .proj-thumb {
+    height: 160px;
+  }
+  .bottom-nav {
+    bottom: 16px;
+    padding: 6px 10px;
+  }
+  .nav-item {
+    width: 40px;
+    height: 40px;
+  }
+  .nav-tip {
+    display: none;
+  }
+  .topbar {
+    padding: 16px 20px;
+  }
+  .hero {
+    min-height: auto;
+    padding: 40px 0 20px;
+  }
+  .hero-actions {
+    margin-top: 24px;
+  }
+  .btn-cta, .btn-outline {
+    padding: 10px 22px;
+  }
+  .contact-form-section {
+    padding: 0 20px 40px;
+  }
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}
+@media (max-width: 860px) {
+  .projects-grid {
+    grid-template-columns: 1fr;
+  }
+  .proj-card.featured {
+    grid-column: span 1;
+  }
+  .bento {
+    grid-template-columns: 1fr;
+  }
+  .card-xl {
+    grid-column: span 1;
+  }
+}
 .contact-form-section{
   max-width:640px;margin:0 auto 60px;padding:0 24px;
 }
@@ -401,28 +487,9 @@ footer{
   text-align:center;background:var(--card);
 }
 .footer-copy{font-size:12px;color:var(--fg-dim)}
-
-@media(max-width:860px){
-  .projects-grid{grid-template-columns:1fr}
-  .proj-card.featured{grid-column:span 1}
-  .bento{grid-template-columns:1fr}
-  .card-xl{grid-column:span 1}
-  .container{padding:0 20px}
-  .hero{padding:40px 0 20px}
-  .topbar{justify-content:flex-end;padding:20px 20px}
-  .work-header{margin-bottom:32px}
-}
-@media(max-width:600px){
-  .form-row{grid-template-columns:1fr}
-  .contact-link{width:100%;justify-content:center}
-  .hero-actions{gap:12px}
-  .btn-cta,.btn-outline{padding:10px 22px}
-}
 </style>
 </head>
 <body>
-
-<div class="cursor" id="cursor"></div>
 
 <header class="topbar">
   <div class="nav-email">
@@ -435,7 +502,7 @@ footer{
 </header>
 
 <main>
-  <!-- Hero -->
+  <!-- Hero with "Who's Tsola?" answer -->
   <section class="hero" id="home">
     <div class="hero-inner">
       <div class="hero-intro reveal">
@@ -451,6 +518,9 @@ footer{
           <strong>Designer & Developer</strong><br>from Nigeria.
         </div>
       </div>
+      <div class="hero-identity reveal" style="transition-delay:0.05s">
+        Tsola is where design meets code — crafting digital products with soul, precision, and a relentless pursuit of excellence.
+      </div>
       <div class="hero-actions reveal" style="transition-delay:0.08s">
         <a href="#work" class="btn-cta">View my work</a>
         <a href="#contact" class="btn-outline">Let's talk</a>
@@ -461,7 +531,7 @@ footer{
     </div>
   </section>
 
-  <!-- About (DESIGN & BUILD) -->
+  <!-- About Section: Updated Freelance line -->
   <section class="section" id="about">
     <div class="container">
       <span class="section-eyebrow reveal">Who I Am</span>
@@ -472,8 +542,8 @@ footer{
         <div class="card reveal"><div class="photo-placeholder"><img src="pfp.jpg" alt="Tsola" style="width:100%;height:100%;object-fit:cover;border-radius:var(--radius);" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><svg style="display:none" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div><div class="photo-label">Tsola Patrick</div></div>
         <div class="card card-xl reveal"><div class="card-label">Full Skill Set</div><div class="tool-cat">Design & Creative</div><div class="pill-group"><span class="s-pill">Brand Identity</span><span class="s-pill">UI/UX</span><span class="s-pill">Creative Direction</span><span class="s-pill">Figma</span><span class="s-pill">Illustrator</span><span class="s-pill">Photoshop</span></div><div class="tool-cat">Development</div><div class="pill-group"><span class="s-pill">HTML/CSS</span><span class="s-pill">Tailwind</span><span class="s-pill">JavaScript</span><span class="s-pill">Python</span><span class="s-pill">FastAPI</span></div><div class="tool-cat">Infra & AI</div><div class="pill-group"><span class="s-pill">Supabase</span><span class="s-pill">Telegram API</span><span class="s-pill">Groq/Llama</span><span class="s-pill">Mono API</span><span class="s-pill">Vercel</span><span class="s-pill">PostgreSQL</span></div></div>
         <div class="card reveal"><div style="padding-bottom:16px"><div class="card-label">Based In</div><div class="loc-big">PORT<br>HARCOURT</div><div class="loc-sub">Nigeria</div></div><div class="loc-map"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d127672.62623988!2d6.9815!3d4.8156!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1069cd879d9e1f79%3A0xe5d5c3e7e6b4e7c!2sPort%20Harcourt%2C%20Nigeria!5e0!3m2!1sen!2sus!4v1" width="100%" height="100%" style="border:none;filter:grayscale(0.6) opacity(0.8);"></iframe></div></div>
-        <div class="card reveal"><div class="card-label">Favorite Quote</div><div class="quote-text">"Be a yardstick of quality. Some people aren't used to an environment where excellence is expected."</div><div class="quote-attr">— Steve Jobs</div></div>
-        <div class="card card-xl reveal"><div class="card-label">Experience</div><div class="exp-item"><div class="exp-dot"></div><div><div class="exp-role">Founder & Creative Director</div><div class="exp-place">Vanilla Studios, Port Harcourt</div></div><div class="exp-year">2023–present</div></div><div class="exp-item"><div class="exp-dot"></div><div><div class="exp-role">Freelance Brand & Dev</div><div class="exp-place">Reality 3D Hub, Swft Mobility, Pxxl App</div></div><div class="exp-year">2023–present</div></div><div class="exp-item"><div class="exp-dot"></div><div><div class="exp-role">BSc Computer Science</div><div class="exp-place">University of Port Harcourt, Year 3</div></div><div class="exp-year">2023–2026</div></div></div>
+        <div class="card reveal"><div class="card-label">Favorite Quote</div><div class="quote-text">"Excellence is never an accident. It is the result of high intention and consistent effort."</div><div class="quote-attr">— Aristotle</div></div>
+        <div class="card card-xl reveal"><div class="card-label">Experience</div><div class="exp-item"><div class="exp-dot"></div><div><div class="exp-role">Founder & Creative Director</div><div class="exp-place">Vanilla Studios, Port Harcourt</div></div><div class="exp-year">2023–present</div></div><div class="exp-item"><div class="exp-dot"></div><div><div class="exp-role">Freelance Brand & Dev</div><div class="exp-place">Reality 3D Hub, Swyft Mobility, Bejaski Handyman</div></div><div class="exp-year">2023–present</div></div><div class="exp-item"><div class="exp-dot"></div><div><div class="exp-role">BSc Computer Science</div><div class="exp-place">University of Port Harcourt, Year 3</div></div><div class="exp-year">2023–2026</div></div></div>
         <div class="card reveal"><div class="card-label">How I Work</div><div class="v-item"><div class="v-text"><strong>Excellence isn't optional.</strong> Every project gets the same level of craft.</div></div><div class="v-item"><div class="v-text"><strong>Design + code together.</strong> I build what I design.</div></div><div class="v-item"><div class="v-text"><strong>Built for anywhere.</strong> Products that feel considered and work globally.</div></div></div>
       </div>
     </div>
@@ -494,7 +564,7 @@ footer{
   </section>
   </div>
 
-  <!-- Contact CTA (with social icons) -->
+  <!-- Contact CTA (social icons only on mobile) -->
   <div class="cta-section" id="contact">
     <div class="cta-inner">
       <span class="section-eyebrow reveal">Available for Hire</span>
@@ -553,10 +623,9 @@ function filterProjects(cat,btn){document.querySelectorAll('.filter-btn').forEac
 function openCase(id){const ov=document.getElementById('case-'+id);if(ov){ov.classList.add('open');document.body.style.overflow='hidden';ov.scrollTop=0;}}
 function closeCase(){document.querySelectorAll('.case-overlay').forEach(o=>o.classList.remove('open'));document.body.style.overflow='';}
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeCase();});
-const cursor=document.getElementById('cursor');document.addEventListener('mousemove',e=>{cursor.style.left=e.clientX+'px';cursor.style.top=e.clientY+'px';});
 </script>
 
-<!-- hidden case overlays (minimal structure for demo) -->
+<!-- hidden case overlays minified -->
 <div class="case-overlay" id="case-grahamwali"><div class="case-header"><button class="case-back" onclick="closeCase()"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> Back</button><a class="case-visit" href="#">Visit</a></div><div class="case-body"><span class="case-eyebrow">Web Dev</span><h1 class="case-title">Graham Wali Dental</h1><div class="case-section"><p>Full website build for a dental clinic in PH.</p></div></div></div>
 <div class="case-overlay" id="case-finora"><div class="case-header"><button class="case-back" onclick="closeCase()"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> Back</button><a class="case-visit" href="#">Visit</a></div><div class="case-body"><span class="case-eyebrow">Fintech AI</span><h1 class="case-title">Finora</h1><div class="case-section"><p>Conversational finance assistant for Nigeria.</p></div></div></div>
 <div class="case-overlay" id="case-voltstore"><div class="case-header"><button class="case-back" onclick="closeCase()"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> Back</button><span class="case-visit" style="opacity:0.5">Telegram Bot</span></div><div class="case-body"><span class="case-eyebrow">AI E‑commerce</span><h1 class="case-title">VoltStore</h1><div class="case-section"><p>AI Telegram storefront with negotiation.</p></div></div></div>
