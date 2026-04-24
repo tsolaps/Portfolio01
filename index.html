@@ -186,11 +186,6 @@ button, a, .nav-item, .filter-btn, .proj-card, .contact-link, .btn-cta, .btn-out
   border:1px solid var(--border-mid);
 }
 .btn-outline:hover{color:var(--fg);border-color:var(--fg-mid);transform:translateY(-1px)}
-.hero-tagline{
-  max-width:540px;margin:24px auto 0;
-  font-size:14px;line-height:1.7;color:var(--fg-mid);
-  font-weight:400;
-}
 
 .section{
   padding:80px 0;
@@ -265,6 +260,43 @@ button, a, .nav-item, .filter-btn, .proj-card, .contact-link, .btn-cta, .btn-out
 .v-item{display:flex;gap:12px;padding:8px 0}
 .v-text{font-size:12px;color:var(--fg-mid);line-height:1.6}
 .v-text strong{color:var(--fg);font-weight:600}
+
+/* Scrolling marquee */
+.marquee-wrap{
+  margin-top: 24px;
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 12px 0;
+}
+.marquee{
+  display: inline-flex;
+  gap: 32px;
+  animation: scroll 20s linear infinite;
+}
+.marquee-item{
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: var(--fg-mid);
+  background: var(--bg);
+  padding: 6px 18px;
+  border-radius: 100px;
+  border: 1px solid var(--border-mid);
+  transition: all 0.2s;
+}
+.marquee-item:hover{
+  color: var(--fg);
+  border-color: var(--fg);
+  transform: translateY(-1px);
+}
+@keyframes scroll{
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
 
 .work-header{text-align:center;margin-bottom:48px}
 .work-filter{display:flex;justify-content:center;gap:8px;margin-top:20px;flex-wrap:wrap}
@@ -344,102 +376,47 @@ button, a, .nav-item, .filter-btn, .proj-card, .contact-link, .btn-cta, .btn-out
 .cta-title .dim{color:var(--fg-dim)}
 .cta-sub{font-size:14px;color:var(--fg-mid);line-height:1.7;margin:20px auto 32px;max-width:460px}
 
+/* Social links: icons only on all devices */
 .contact-links{
   display:flex;flex-wrap:wrap;justify-content:center;gap:14px;
   margin:0 0 24px 0;
 }
 .contact-link{
-  display:inline-flex;align-items:center;gap:10px;
-  padding:8px 20px;background:var(--card);border:1px solid var(--border-mid);
-  border-radius:100px;transition:all 0.2s;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:10px 14px;
+  background:var(--card);
+  border:1px solid var(--border-mid);
+  border-radius:100px;
+  transition:all 0.2s;
 }
-.contact-link:hover{background:var(--fg);color:var(--bg)}
-.contact-link:hover .cl-label,.contact-link:hover .cl-val,
-.contact-link:hover svg{stroke:var(--bg);color:var(--bg);fill:var(--bg)}
-.cl-icon{width:16px;height:16px;display:inline-flex;align-items:center}
-.cl-icon svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.8}
-.cl-label{font-size:12px;font-weight:700;margin-left:2px}
-.cl-val{font-size:11px;color:var(--fg-dim);margin-left:6px}
+.contact-link:hover{
+  background:var(--fg);
+  color:var(--bg);
+}
+.contact-link:hover svg{
+  stroke:var(--bg);
+  fill:var(--bg);
+}
+.cl-icon{
+  width:18px;
+  height:18px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+}
+.cl-icon svg{
+  width:16px;
+  height:16px;
+  stroke:currentColor;
+  fill:none;
+  stroke-width:1.8;
+}
+.cl-label, .cl-val{
+  display: none; /* hide text on all devices */
+}
 
-@media (max-width: 600px) {
-  .contact-link {
-    padding: 10px 14px;
-    gap: 0;
-  }
-  .cl-label, .cl-val {
-    display: none;
-  }
-  .cl-icon {
-    margin: 0;
-  }
-  .contact-links {
-    gap: 10px;
-  }
-  .hero-identity {
-    font-size: 13px;
-    padding: 0 16px;
-  }
-  .section {
-    padding: 56px 0;
-  }
-  .bento {
-    gap: 10px;
-  }
-  .card {
-    padding: 18px;
-  }
-  .projects-grid {
-    gap: 10px;
-  }
-  .proj-thumb, .proj-card.featured .proj-thumb {
-    height: 160px;
-  }
-  .bottom-nav {
-    bottom: 16px;
-    padding: 6px 10px;
-  }
-  .nav-item {
-    width: 40px;
-    height: 40px;
-  }
-  .nav-tip {
-    display: none;
-  }
-  .topbar {
-    padding: 16px 20px;
-  }
-  .hero {
-    min-height: auto;
-    padding: 40px 0 20px;
-  }
-  .hero-actions {
-    margin-top: 24px;
-  }
-  .btn-cta, .btn-outline {
-    padding: 10px 22px;
-  }
-  .contact-form-section {
-    padding: 0 20px 40px;
-  }
-  .form-row {
-    grid-template-columns: 1fr;
-    gap: 12px;
-  }
-}
-@media (max-width: 860px) {
-  .projects-grid {
-    grid-template-columns: 1fr;
-  }
-  .proj-card.featured {
-    grid-column: span 1;
-  }
-  .bento {
-    grid-template-columns: 1fr;
-  }
-  .card-xl {
-    grid-column: span 1;
-  }
-}
 .contact-form-section{
   max-width:640px;margin:0 auto 60px;padding:0 24px;
 }
@@ -467,6 +444,54 @@ footer{
   text-align:center;background:var(--card);
 }
 .footer-copy{font-size:12px;color:var(--fg-dim)}
+
+@media (max-width: 860px) {
+  .projects-grid{
+    grid-template-columns:1fr;
+  }
+  .proj-card.featured{
+    grid-column:span 1;
+  }
+  .bento{
+    grid-template-columns:1fr;
+  }
+  .card-xl{
+    grid-column:span 1;
+  }
+  .hero{
+    min-height:auto;
+    padding:40px 0 20px;
+  }
+  .section{
+    padding:56px 0;
+  }
+  .container{
+    padding:0 20px;
+  }
+  .topbar{
+    padding:16px 20px;
+  }
+}
+@media (max-width: 600px){
+  .bottom-nav{
+    bottom:16px;
+    padding:6px 10px;
+  }
+  .nav-item{
+    width:40px;
+    height:40px;
+  }
+  .nav-tip{
+    display:none;
+  }
+  .marquee-wrap{
+    border-radius: 40px;
+  }
+  .marquee-item{
+    font-size: 11px;
+    padding: 4px 12px;
+  }
+}
 </style>
 </head>
 <body>
@@ -508,18 +533,41 @@ footer{
     </div>
   </section>
 
-  <!-- About Section: title changed to "Who am I?", removed section-eyebrow and extra subtitle -->
+  <!-- About Section -->
   <section class="section" id="about">
     <div class="container">
       <h2 class="section-title reveal">Who am I?</h2>
       <div class="bento">
         <div class="card card-xl reveal"><div class="card-label">Background</div><div class="bio-name">Tsola</div><div class="bio-role">Designer & Developer — Vanilla Studios</div><div class="bio-text"><p>CS student at <strong>University of Port Harcourt</strong> (2023) and founder of <strong>Vanilla Studios</strong> — building AI products, brand systems, and web experiences.</p><p>From brand identities to AI‑powered Telegram bots and fintech tools. Itsekiri background. Based in <strong>Port Harcourt, Nigeria.</strong></p></div></div>
         <div class="card reveal"><div class="photo-placeholder"><img src="pfp.jpg" alt="Tsola" style="width:100%;height:100%;object-fit:cover;border-radius:var(--radius);" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><svg style="display:none" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div><div class="photo-label">Tsola Patrick</div></div>
-        <div class="card card-xl reveal"><div class="card-label">Full Skill Set</div><div class="tool-cat">Design & Creative</div><div class="pill-group"><span class="s-pill">Brand Identity</span><span class="s-pill">UI/UX</span><span class="s-pill">Creative Direction</span><span class="s-pill">Figma</span><span class="s-pill">Illustrator</span><span class="s-pill">Photoshop</span></div><div class="tool-cat">Development</div><div class="pill-group"><span class="s-pill">HTML/CSS</span><span class="s-pill">Tailwind</span><span class="s-pill">JavaScript</span><span class="s-pill">Python</span><span class="s-pill">FastAPI</span></div><div class="tool-cat">Infra & AI</div><div class="pill-group"><span class="s-pill">Supabase</span><span class="s-pill">Telegram API</span><span class="s-pill">Groq/Llama</span><span class="s-pill">Mono API</span><span class="s-pill">Vercel</span><span class="s-pill">PostgreSQL</span></div></div>
+        <div class="card card-xl reveal"><div class="card-label">Full Skill Set</div><div class="tool-cat">Design & Creative</div><div class="pill-group"><span class="s-pill">Brand Identity</span><span class="s-pill">UI/UX</span><span class="s-pill">Creative Direction</span><span class="s-pill">Figma</span><span class="s-pill">Illustrator</span><span class="s-pill">Photoshop</span></div><div class="tool-cat">Development</div><div class="pill-group"><span class="s-pill">HTML/CSS</span><span class="s-pill">Tailwind CSS</span><span class="s-pill">JavaScript</span><span class="s-pill">Python</span><span class="s-pill">FastAPI</span></div><div class="tool-cat">Infra & AI</div><div class="pill-group"><span class="s-pill">Supabase</span><span class="s-pill">Pxxl App</span><span class="s-pill">Vercel</span><span class="s-pill">PostgreSQL</span></div></div>
         <div class="card reveal"><div style="padding-bottom:16px"><div class="card-label">Based In</div><div class="loc-big">PORT<br>HARCOURT</div><div class="loc-sub">Nigeria</div></div><div class="loc-map"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d127672.62623988!2d6.9815!3d4.8156!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1069cd879d9e1f79%3A0xe5d5c3e7e6b4e7c!2sPort%20Harcourt%2C%20Nigeria!5e0!3m2!1sen!2sus!4v1" width="100%" height="100%" style="border:none;filter:grayscale(0.6) opacity(0.8);"></iframe></div></div>
         <div class="card reveal"><div class="card-label">Favorite Quote</div><div class="quote-text">"Excellence is never an accident. It is the result of high intention and consistent effort."</div><div class="quote-attr">— Aristotle</div></div>
         <div class="card card-xl reveal"><div class="card-label">Experience</div><div class="exp-item"><div class="exp-dot"></div><div><div class="exp-role">Founder & Creative Director</div><div class="exp-place">Vanilla Studios, Port Harcourt</div></div><div class="exp-year">2023–present</div></div><div class="exp-item"><div class="exp-dot"></div><div><div class="exp-role">Freelance Brand & Dev</div><div class="exp-place">Reality 3D Hub, Swyft Mobility, Bejaski Handyman</div></div><div class="exp-year">2023–present</div></div><div class="exp-item"><div class="exp-dot"></div><div><div class="exp-role">BSc Computer Science</div><div class="exp-place">University of Port Harcourt, Year 3</div></div><div class="exp-year">2023–2026</div></div></div>
-        <div class="card reveal"><div class="card-label">How I Work</div><div class="v-item"><div class="v-text"><strong>Excellence isn't optional.</strong> Every project gets the same level of craft.</div></div><div class="v-item"><div class="v-text"><strong>Design + code together.</strong> I build what I design.</div></div><div class="v-item"><div class="v-text"><strong>Built for anywhere.</strong> Products that feel considered and work globally.</div></div></div>
+        <div class="card reveal"><div class="card-label">How I Work</div><div class="v-item"><div class="v-text"><strong>Excellence isn't optional.</strong> Every project gets the same level of craft.</div></div><div class="v-item"><div class="v-text"><strong>Design + code together.</strong> I build what I design.</div></div><div class="v-item"><div class="v-text"><strong>Built for anywhere.</strong> Products that feel considered and work globally.</div></div>
+          <!-- Scrolling marquee with tools -->
+          <div class="marquee-wrap">
+            <div class="marquee">
+              <span class="marquee-item">Python</span>
+              <span class="marquee-item">Figma</span>
+              <span class="marquee-item">Photoshop</span>
+              <span class="marquee-item">Illustrator</span>
+              <span class="marquee-item">HTML</span>
+              <span class="marquee-item">CSS</span>
+              <span class="marquee-item">Tailwind CSS</span>
+              <span class="marquee-item">Supabase</span>
+              <!-- duplicate for seamless loop -->
+              <span class="marquee-item">Python</span>
+              <span class="marquee-item">Figma</span>
+              <span class="marquee-item">Photoshop</span>
+              <span class="marquee-item">Illustrator</span>
+              <span class="marquee-item">HTML</span>
+              <span class="marquee-item">CSS</span>
+              <span class="marquee-item">Tailwind CSS</span>
+              <span class="marquee-item">Supabase</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -539,7 +587,7 @@ footer{
   </section>
   </div>
 
-  <!-- CTA section with "Let's build legendary" and button -->
+  <!-- CTA section -->
   <div class="cta-section" id="contact">
     <div class="cta-inner">
       <h2 class="cta-title reveal">Let's build <span class="dim">something</span><br>legendary.</h2>
@@ -557,23 +605,19 @@ footer{
     <button class="form-submit reveal">Send Message</button>
   </div>
 
-  <!-- Social Media Icons (moved after the contact form) -->
-  <div class="contact-links reveal" style="justify-content:center; margin-bottom:40px;">
+  <!-- Social Media Icons (icons only, consistent across all devices) -->
+  <div class="contact-links reveal">
     <a class="contact-link" href="mailto:tsolapatrick@gmail.com">
       <span class="cl-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span>
-      <span class="cl-label">Email</span><span class="cl-val">tsolapatrick@gmail.com</span>
     </a>
     <a class="contact-link" href="https://instagram.com/tsola.ps" target="_blank">
       <span class="cl-icon"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></span>
-      <span class="cl-label">Instagram</span><span class="cl-val">@tsola.ps</span>
     </a>
     <a class="contact-link" href="https://twitter.com/madebytsola" target="_blank">
       <span class="cl-icon"><svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></span>
-      <span class="cl-label">X</span><span class="cl-val">@madebytsola</span>
     </a>
     <a class="contact-link" href="https://github.com/tsolaps" target="_blank">
       <span class="cl-icon"><svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg></span>
-      <span class="cl-label">GitHub</span><span class="cl-val">tsolaps</span>
     </a>
   </div>
 </main>
