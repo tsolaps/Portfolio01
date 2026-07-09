@@ -85,13 +85,6 @@ export function initServices(): void {
         intervalId = window.setInterval(nextService, 2500);
     }
 
-    function stopAutoRotate(): void {
-        if (intervalId !== null) {
-            clearInterval(intervalId);
-            intervalId = null;
-        }
-    }
-
     updateService(0, true);
     startAutoRotate();
 }
