@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>All Projects — Tsola</title>
+  <meta name="description" content="A full collection of design and development projects by Tsola.">
+  <link rel="icon" type="image/png" sizes="64x64" href="/favicon1.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon1.png">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="/src/style.css">
+  <script type="module" src="/src/projects-page.ts"></script>
+</head>
+
+<body>
+  <div class="page-container">
+
+    <header class="topbar">
+      <div class="nav-icons" style="display: flex; gap: 4px; align-items: center;">
+        <a href="https://www.instagram.com/tsola.ps/" target="_blank" class="nav-item" style="width: 36px; height: 36px;">
+          <img src="icons/instagram.png" alt="Instagram" style="width: 18px; height: 18px; object-fit: contain;">
+        </a>
+        <a href="https://www.tiktok.com/@tsola.yemi" target="_blank" class="nav-item" style="width: 36px; height: 36px;">
+          <img src="icons/titkok.png" alt="TikTok" style="width: 18px; height: 18px; object-fit: contain;">
+        </a>
+        <a href="https://x.com/madebytsola" target="_blank" class="nav-item" style="width: 36px; height: 36px;">
+          <img src="icons/x.png" alt="X" style="width: 18px; height: 18px; object-fit: contain;">
+        </a>
+      </div>
+    </header>
+
+    <section class="section" style="border-top: none; padding-top: 48px;">
+      <div class="hero-inner">
+        <div style="margin-bottom: 32px;">
+          <h1 class="section-title reveal" style="margin-bottom: 8px;">All Projects</h1>
+          <p class="reveal" style="color: var(--fg-mid); font-size: 15px; margin: 0;">Every piece of work — design, dev, and everything in between.</p>
+        </div>
+
+        <div class="work-filters reveal" style="margin-bottom: 40px;">
+          <button class="filter-btn active" onclick="filterProjects('all', this)">All</button>
+          <button class="filter-btn" onclick="filterProjects('dev', this)">Dev</button>
+          <button class="filter-btn" onclick="filterProjects('brand', this)">Brand</button>
+          <button class="filter-btn" onclick="filterProjects('product dev', this)">Product</button>
+        </div>
+
+        <div class="work-grid" id="workGrid"></div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="footer-giant-text">Hire Me!</div>
+      <div class="footer-copy">© 2026 Tsola. All rights reserved.</div>
+    </footer>
+  </div>
+
+  <nav class="bottom-nav">
+    <a class="nav-item" id="nav-home" href="index.html">
+      <img src="icons/home.png" alt="Home" style="width: 20px; height: 20px; object-fit: contain;">
+      <div class="nav-tip">Home</div>
+    </a>
+    <a class="nav-item" href="https://www.instagram.com/tsola.ps/" target="_blank">
+      <img src="icons/instagram.png" alt="Instagram" style="width: 20px; height: 20px; object-fit: contain;">
+      <div class="nav-tip">Instagram</div>
+    </a>
+    <a class="nav-item" href="https://www.tiktok.com/@tsola.yemi" target="_blank">
+      <img src="icons/titkok.png" alt="TikTok" style="width: 20px; height: 20px; object-fit: contain;">
+      <div class="nav-tip">TikTok</div>
+    </a>
+    <div class="nav-div"></div>
+    <a class="nav-item" href="index.html#contact">
+      <img src="icons/email.png" alt="Email" style="width: 20px; height: 20px; object-fit: contain;">
+      <div class="nav-tip">Email</div>
+    </a>
+    <a href="https://wa.me/9112393677" target="_blank" class="nav-pill-cta">Let's Talk</a>
+  </nav>
+
+</body>
+
+</html>

@@ -1,559 +1,456 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Tsola — Designer & Developer</title>
-<link rel="icon" type="image/png" href="favicon.png">
-<link rel="apple-touch-icon" href="favicon.png">
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
-<style>
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-:root{
-  --bg:#F0F0EE;
-  --card:#FFFFFF;
-  --fg:#0C0C0A;
-  --fg-dim:rgba(12,12,10,0.32);
-  --fg-mid:rgba(12,12,10,0.52);
-  --border:rgba(12,12,10,0.08);
-  --border-mid:rgba(12,12,10,0.13);
-  --radius-lg:20px;
-  --radius-md:14px;
-  --transition:0.3s cubic-bezier(0.4,0,0.2,1);
-  --glass-bg:rgba(255,255,255,0.72);
-  --glass-border:rgba(12,12,10,0.12);
-}
-[data-theme="dark"]{
-  --bg:#0C0C0A;
-  --card:#161614;
-  --fg:#F0F0EE;
-  --fg-dim:rgba(240,240,238,0.32);
-  --fg-mid:rgba(240,240,238,0.52);
-  --border:rgba(240,240,238,0.08);
-  --border-mid:rgba(240,240,238,0.13);
-  --glass-bg:rgba(22,22,20,0.75);
-  --glass-border:rgba(240,240,238,0.1);
-}
-
-html{scroll-behavior:smooth}
-body{
-  background:var(--bg);
-  color:var(--fg);
-  font-family:'Plus Jakarta Sans',sans-serif;
-  overflow-x:hidden;
-  min-height:100vh;
-  padding-bottom:100px;
-  transition:background var(--transition),color var(--transition);
-}
-a{text-decoration:none;color:inherit}
-
-/* Default system cursor — arrow, plus pointer for interactive */
-body, button, a, .nav-item, .filter-btn, .proj-card, .contact-link, .btn-cta, .btn-outline, .form-submit {
-  cursor: auto;
-}
-button, a, .nav-item, .filter-btn, .proj-card, .contact-link, .btn-cta, .btn-outline, .form-submit {
-  cursor: pointer;
-}
-
-.container{
-  max-width:1040px;
-  margin:0 auto;
-  padding:0 24px;
-}
-
-.topbar{
-  display:flex;justify-content:flex-end;align-items:center;
-  padding:24px 32px;
-}
-.nav-email{
-  display:flex;align-items:center;gap:12px;
-  font-size:13px;color:var(--fg-mid);font-weight:400;
-}
-.theme-toggle{
-  width:36px;height:36px;border-radius:100px;
-  border:1px solid var(--border-mid);background:var(--card);
-  cursor:pointer;display:flex;align-items:center;justify-content:center;
-  transition:all 0.2s;flex-shrink:0;
-}
-.theme-toggle:hover{background:var(--fg)}
-.theme-toggle:hover svg{stroke:var(--bg)}
-.theme-toggle svg{
-  width:16px;height:16px;stroke:var(--fg-mid);fill:none;
-  stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;
-}
-
-.bottom-nav{
-  position:fixed;bottom:24px;left:50%;transform:translateX(-50%);
-  display:flex;align-items:center;gap:2px;
-  padding:8px 12px;
-  border-radius:100px;
-  z-index:100;
-  background:var(--glass-bg);
-  backdrop-filter:blur(28px) saturate(220%);
-  -webkit-backdrop-filter:blur(28px) saturate(220%);
-  border:1px solid var(--glass-border);
-  box-shadow:0 8px 28px rgba(12,12,10,0.12), inset 0 1px 0 rgba(255,255,255,0.5);
-}
-[data-theme="dark"] .bottom-nav{
-  box-shadow:0 8px 28px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.05);
-}
-.nav-item{
-  width:44px;height:44px;border-radius:100px;
-  display:flex;align-items:center;justify-content:center;
-  transition:background 0.2s,transform 0.2s;position:relative;
-}
-.nav-item:hover{background:rgba(12,12,10,0.07); transform:scale(0.96)}
-.nav-item.active{background:rgba(12,12,10,0.1)}
-[data-theme="dark"] .nav-item:hover,[data-theme="dark"] .nav-item.active{background:rgba(240,240,238,0.1)}
-.nav-item svg{
-  width:18px;height:18px;fill:none;
-  stroke:rgba(12,12,10,0.45);
-  stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;
-}
-[data-theme="dark"] .nav-item svg{stroke:rgba(240,240,238,0.45)}
-.nav-item:hover svg,.nav-item.active svg{stroke:var(--fg)}
-.nav-div{width:1px;height:20px;background:rgba(12,12,10,0.12);margin:0 6px}
-[data-theme="dark"] .nav-div{background:rgba(240,240,238,0.12)}
-.nav-tip{
-  position:absolute;bottom:calc(100% + 12px);left:50%;transform:translateX(-50%);
-  font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;
-  color:var(--fg);background:var(--card);backdrop-filter:blur(12px);
-  border:1px solid var(--border);padding:5px 10px;border-radius:8px;
-  white-space:nowrap;opacity:0;pointer-events:none;transition:opacity 0.15s;
-}
-.nav-item:hover .nav-tip{opacity:1}
-
-.reveal{
-  opacity:0;transform:translateY(24px);
-  transition:opacity 0.55s cubic-bezier(0.2,0.9,0.3,1.1),transform 0.55s cubic-bezier(0.2,0.9,0.3,1.1);
-}
-.reveal.visible{opacity:1;transform:translateY(0)}
-
-.hero{
-  min-height:85vh;
-  display:flex;align-items:center;
-  padding:60px 0 40px;
-}
-.hero-inner{max-width:780px;margin:0 auto;text-align:center}
-.hero-intro{
-  font-size:clamp(44px,8vw,76px);
-  font-weight:800;line-height:1.08;letter-spacing:-1.5px;
-  margin-bottom:20px;
-}
-.hero-line{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:12px;margin-bottom:8px}
-.hero-dim{color:var(--fg-dim);font-weight:700}
-.inline-photo{
-  width:clamp(58px,9vw,72px);height:clamp(58px,9vw,72px);
-  border-radius:100px;
-  background:rgba(12,12,10,0.05);border:2px solid rgba(12,12,10,0.12);
-  overflow:hidden;display:inline-flex;align-items:center;justify-content:center;
-  transition:transform 0.3s ease;
-}
-.inline-photo img{width:100%;height:100%;object-fit:cover}
-.hero-sub{
-  font-size:clamp(24px,5vw,44px);
-  font-weight:600;color:var(--fg-dim);line-height:1.2;
-  margin-top:8px;
-}
-.hero-sub strong{color:var(--fg);font-weight:800}
-.hero-identity{
-  font-size:14px;color:var(--fg-mid);margin:16px auto 0;max-width:480px;
-}
-.hero-actions{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:32px;flex-wrap:wrap}
-.btn-cta, .btn-outline{
-  display:inline-flex;align-items:center;justify-content:center;
-  gap:6px;border:none;border-radius:100px;
-  font-size:14px;font-family:inherit;font-weight:600;
-  transition:all 0.2s cubic-bezier(0.2,0.9,0.4,1.1);
-  padding:12px 28px;
-}
-.btn-cta{
-  background:var(--fg);color:var(--bg);
-}
-.btn-cta:hover{transform:translateY(-2px);box-shadow:0 12px 20px rgba(12,12,10,0.12)}
-.btn-outline{
-  background:transparent;color:var(--fg-mid);
-  border:1px solid var(--border-mid);
-}
-.btn-outline:hover{color:var(--fg);border-color:var(--fg-mid);transform:translateY(-1px)}
-
-.section{
-  padding:80px 0;
-  border-top:1px solid var(--border);
-}
-.section:first-of-type{border-top:none}
-.section-title{
-  font-size:clamp(32px,4.5vw,52px);
-  font-weight:800;line-height:1.05;letter-spacing:-1px;
-  color:var(--fg);margin-bottom:16px;text-align:center;
-}
-.section-sub{
-  font-size:15px;color:var(--fg-mid);line-height:1.65;
-  max-width:560px;margin:0 auto 48px auto;text-align:center;
-}
-
-.bento{
-  display:grid;grid-template-columns:repeat(3,1fr);
-  gap:16px;margin-top:24px;
-}
-.card{
-  background:var(--card);border-radius:var(--radius-lg);
-  padding:24px;border:1px solid var(--border);
-  transition:transform 0.2s,box-shadow 0.2s;
-}
-.card:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(12,12,10,0.05)}
-.card-label{
-  font-size:10px;font-weight:700;letter-spacing:1.8px;
-  text-transform:uppercase;color:var(--fg-dim);margin-bottom:16px;
-}
-.card-xl{grid-column:span 2}
-
-.bio-name{font-size:28px;font-weight:800;color:var(--fg);letter-spacing:-0.5px;margin-bottom:4px}
-.bio-role{font-size:12px;color:var(--fg-dim);font-weight:600;margin-bottom:16px;letter-spacing:.5px;text-transform:uppercase}
-.bio-text{font-size:13px;line-height:1.8;color:var(--fg-mid)}
-.bio-text p{margin-bottom:12px}
-.bio-text strong{color:var(--fg);font-weight:600}
-
-.pill-group{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
-.s-pill{
-  font-size:11px;font-weight:500;letter-spacing:.3px;
-  color:var(--fg-mid);border:1px solid var(--border-mid);
-  padding:5px 12px;border-radius:100px;
-  background:var(--bg);
-}
-.tool-cat{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
-  color:var(--fg-dim);margin-bottom:8px;margin-top:16px}
-.tool-cat:first-child{margin-top:0}
-.photo-placeholder{
-  width:120px;height:130px;border-radius:var(--radius-lg);
-  background:rgba(12,12,10,0.04);border:1px solid var(--border-mid);
-  display:flex;align-items:center;justify-content:center;margin:0 auto 16px;
-}
-.photo-label{font-size:10px;font-weight:700;letter-spacing:1px;color:var(--fg-dim);text-align:center}
-.loc-big{font-size:28px;font-weight:800;color:var(--fg);line-height:1;letter-spacing:-0.5px;margin-bottom:6px}
-.loc-sub{font-size:11px;color:var(--fg-dim);margin-bottom:12px}
-.loc-map{
-  height:88px;border-radius:var(--radius-md);
-  background:rgba(12,12,10,0.03);border:1px solid var(--border);
-  overflow:hidden;
-}
-.quote-text{
-  font-size:18px;font-weight:700;line-height:1.4;color:var(--fg);margin-bottom:10px;
-  font-style:italic;
-}
-.quote-attr{font-size:11px;color:var(--fg-dim);font-weight:500}
-.exp-item{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--border)}
-.exp-item:last-child{border-bottom:none;padding-bottom:0}
-.exp-dot{width:7px;height:7px;border-radius:100px;background:var(--fg);margin-top:6px}
-.exp-role{font-size:14px;font-weight:700;color:var(--fg)}
-.exp-place{font-size:12px;color:var(--fg-mid);margin-top:2px}
-.exp-year{font-size:11px;font-weight:600;letter-spacing:.5px;color:var(--fg-dim);margin-left:auto}
-.v-item{display:flex;gap:12px;padding:8px 0}
-.v-text{font-size:12px;color:var(--fg-mid);line-height:1.6}
-.v-text strong{color:var(--fg);font-weight:600}
-
-.work-header{text-align:center;margin-bottom:48px}
-.work-filter{display:flex;justify-content:center;gap:8px;margin-top:20px;flex-wrap:wrap}
-.filter-btn{
-  font-size:12px;font-weight:600;padding:6px 18px;
-  border-radius:100px;cursor:pointer;
-  border:1px solid var(--border-mid);color:var(--fg-mid);background:transparent;
-  transition:all 0.2s;
-}
-.filter-btn.active,.filter-btn:hover{background:var(--fg);color:var(--bg);border-color:var(--fg)}
-.projects-grid{
-  display:grid;grid-template-columns:repeat(3,1fr);
-  gap:16px;margin-top:12px;
-}
-.proj-card{
-  background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);
-  overflow:hidden;cursor:pointer;
-  transition:transform 0.2s,box-shadow 0.2s;
-}
-.proj-card:hover{transform:translateY(-4px);box-shadow:0 20px 32px rgba(12,12,10,0.08)}
-.proj-card.featured{grid-column:span 2}
-.proj-thumb{
-  height:190px;background:var(--bg);
-  border-bottom:1px solid var(--border);
-  position:relative;overflow:hidden;
-}
-.proj-card.featured .proj-thumb{height:240px}
-.proj-type-badge{
-  position:absolute;top:12px;left:12px;z-index:2;
-  font-size:9px;font-weight:700;letter-spacing:1.5px;
-  background:var(--card);border:1px solid var(--border-mid);
-  padding:4px 10px;border-radius:100px;color:var(--fg-dim);
-}
-.proj-body{padding:20px}
-.proj-name{font-size:19px;font-weight:800;color:var(--fg);margin-bottom:6px}
-.proj-desc{font-size:12px;color:var(--fg-mid);line-height:1.6;margin-bottom:14px}
-.proj-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
-.proj-tag{
-  font-size:9px;font-weight:700;letter-spacing:1px;
-  color:var(--fg-dim);border:1px solid var(--border);
-  padding:3px 9px;border-radius:100px;background:var(--bg);
-}
-.proj-cta{
-  font-size:12px;font-weight:700;color:var(--fg);
-  display:inline-flex;align-items:center;gap:4px;
-  transition:color 0.2s;
-}
-.proj-cta:hover{
-  color:var(--fg-mid);
-}
-
-.case-overlay{
-  position:fixed;inset:0;z-index:500;
-  background:var(--bg);overflow-y:auto;
-  opacity:0;pointer-events:none;transition:opacity 0.25s ease;
-}
-.case-overlay.open{opacity:1;pointer-events:all}
-.case-header{
-  position:sticky;top:0;display:flex;justify-content:space-between;
-  align-items:center;padding:16px 32px;
-  background:var(--bg);border-bottom:1px solid var(--border);
-}
-.case-back{
-  display:flex;align-items:center;gap:6px;
-  font-size:13px;font-weight:600;color:var(--fg-mid);
-  cursor:pointer;background:none;border:none;
-}
-.case-visit{
-  font-size:12px;font-weight:600;
-  background:var(--fg);color:var(--bg);
-  padding:6px 18px;border-radius:100px;
-}
-.case-body{max-width:720px;margin:0 auto;padding:48px 32px 80px}
-
-.cta-section{padding:60px 0 40px;border-top:1px solid var(--border)}
-.cta-inner{max-width:780px;margin:0 auto;text-align:center}
-.cta-title{
-  font-size:clamp(42px,6vw,70px);
-  font-weight:800;letter-spacing:-1.5px;line-height:1.05;
-}
-.cta-title .dim{color:var(--fg-dim)}
-.cta-sub{font-size:14px;color:var(--fg-mid);line-height:1.7;margin:20px auto 32px;max-width:460px}
-
-.contact-links{
-  display:flex;flex-wrap:wrap;justify-content:center;gap:14px;
-  margin:0 0 24px 0;
-}
-.contact-link{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  padding:10px 14px;
-  background:var(--card);
-  border:1px solid var(--border-mid);
-  border-radius:100px;
-  transition:all 0.2s;
-}
-.contact-link:hover{
-  background:var(--fg);
-  color:var(--bg);
-  transform:translateY(-2px);
-}
-.contact-link:hover svg{
-  stroke:var(--bg);
-  fill:var(--bg);
-}
-.cl-icon{
-  width:18px;
-  height:18px;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-}
-.cl-icon svg{
-  width:16px;
-  height:16px;
-  stroke:currentColor;
-  fill:none;
-  stroke-width:1.8;
-}
-.cl-label, .cl-val{display:none}
-
-.contact-form-section{
-  max-width:640px;margin:0 auto 60px;padding:0 24px;
-}
-.contact-form-title{font-size:clamp(28px,5vw,44px);font-weight:800;text-align:center;margin-bottom:12px}
-.contact-form-sub{
-  font-size:14px;color:var(--fg-mid);text-align:center;margin-bottom:36px;
-}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
-.form-input,.form-textarea{
-  width:100%;padding:14px 18px;
-  background:rgba(12,12,10,0.04);border:1px solid var(--border);
-  border-radius:var(--radius-md);
-  font-size:14px;font-family:inherit;color:var(--fg);
-}
-.form-input:focus,.form-textarea:focus{border-color:var(--fg-mid);outline:none}
-.form-textarea{height:130px;margin-bottom:14px}
-.form-submit{
-  width:100%;padding:16px;
-  background:var(--fg);color:var(--bg);
-  border:none;border-radius:100px;
-  font-weight:700;font-size:14px;cursor:pointer;
-  transition:opacity 0.2s;
-}
-.form-submit:hover{opacity:0.85}
-footer{
-  border-top:1px solid var(--border);padding:24px 32px;
-  text-align:center;background:var(--card);
-}
-.footer-copy{font-size:12px;color:var(--fg-dim)}
-
-@media (max-width: 860px) {
-  .projects-grid, .bento { grid-template-columns: 1fr; }
-  .proj-card.featured, .card-xl { grid-column: span 1; }
-  .hero { min-height: auto; padding: 40px 0 20px; }
-  .section { padding: 56px 0; }
-  .container { padding: 0 20px; }
-  .topbar { padding: 16px 20px; }
-}
-@media (max-width: 600px){
-  .bottom-nav { bottom: 16px; padding: 6px 10px; }
-  .nav-item { width: 40px; height: 40px; }
-  .nav-tip { display: none; }
-  .contact-link { padding: 8px 12px; }
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Tsola - Designer & Developer</title>
+  <link rel="icon" type="image/png" sizes="64x64" href="/favicon1.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon1.png">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap"
+    rel="stylesheet">
+  <script type="module"
+    src="/src/main.ts                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          "></script>
 </head>
+
 <body>
 
-<header class="topbar">
-  <div class="nav-email">
-    <span>tsolapatrick@gmail.com</span>
-    <button class="theme-toggle" id="themeToggle">
-      <svg id="iconMoon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
-      <svg id="iconSun" viewBox="0 0 24 24" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-    </button>
-  </div>
-</header>
+  <div class="page-container">
+    <header class="topbar">
+      <div class="nav-icons" style="display: flex; gap: 4px; align-items: center;">
+        <a href="https://www.instagram.com/tsola.ps/" target="_blank" class="nav-item"
+          style="width: 36px; height: 36px;">
+          <img src="icons/instagram.png" alt="Instagram" style="width: 18px; height: 18px; object-fit: contain;">
+        </a>
+        <a href="https://www.tiktok.com/@tsola.yemi" target="_blank" class="nav-item"
+          style="width: 36px; height: 36px;">
+          <img src="icons/titkok.png" alt="TikTok" style="width: 18px; height: 18px; object-fit: contain;">
+        </a>
+        <a href="https://x.com/madebytsola" target="_blank" class="nav-item" style="width: 36px; height: 36px;">
+          <img src="icons/x.png" alt="X" style="width: 18px; height: 18px; object-fit: contain;">
+        </a>
+      </div>
+    </header>
 
-<main>
-  <!-- Hero -->
-  <section class="hero" id="home">
-    <div class="hero-inner">
-      <div class="hero-intro reveal">
-        <div class="hero-line">
-          <span>Hey, I'm</span>
+    <section class="hero" id="home">
+
+      <div class="hero-inner">
+        <div class="hero-text-block reveal">
           <div class="inline-photo">
-            <img src="pfp.jpg" alt="Tsola" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
-            <svg style="display:none" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+            <img src="pfp.png" alt="Tsola"
+              onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+            <svg style="display:none" viewBox="0 0 24 24">
+              <circle cx="12" cy="8" r="4" />
+              <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
+            </svg>
           </div>
-          <span>Tsola<span class="hero-dim">.</span></span>
+          <div class="hero-line">
+            <span><span id="greeting-text">Hi.</span> I'm Tsola<svg class="hero-squiggle" viewBox="0 0 75 74"
+                fill="none" aria-hidden="true">
+                <path class="squiggle-body"
+                  d="M69.1144 5C69.1144 6.6591 66.6257 11.7653 62.2329 18.829C57.9208 25.7629 52.3788 27.1968 47.7141 28.1458C44.5978 28.7798 42.3048 28.0452 41.4689 27.5236C40.528 26.9364 40.1021 25.6414 39.945 24.1268C39.7779 22.5163 40.9285 19.9948 42.8625 17.0662C44.3247 14.8522 46.7888 13.594 49.8194 12.8085C54.7025 11.5428 57.375 13.063 58.844 14.1078C60.7799 15.4847 62.9179 22.9548 63.826 32.2527C64.2908 37.0119 61.5856 41.4312 57.9893 45.2961C55.8868 47.5556 52.2154 49.3685 47.9639 50.9035C43.7125 52.4385 38.7352 53.3717 33.3195 53.8525C27.9039 54.3332 22.2007 54.3332 16.3247 54.3332"
+                  stroke="currentColor" stroke-width="10" stroke-linecap="round" />
+                <path class="squiggle-head"
+                  d="M15.2677 37.6577C14.6456 39.2162 12.3454 43.6091 10.8733 46.6036C9.8137 48.759 8.36106 50.9493 7.15444 53.0468C6.58289 54.0403 6.05465 55.4553 5.27067 56.9196C4.92407 57.567 4.59037 57.9691 6.45215 58.8049C12.1644 61.3694 17.9763 62.9967 20.3833 64.3054C21.7533 64.8883 23.1139 65.5136 24.7871 66.4547C25.5271 66.8774 26.0456 67.1885 26.894 68.1374"
+                  stroke="currentColor" stroke-width="10" stroke-linecap="round" />
+              </svg></span>
+            <span><span class="hero-dim"></span></span>
+          </div>
+          <div class="hero-sub">
+            <strong>Designer & Developer</strong><br>from Nigeria.
+          </div>
+          <div class="hero-identity">
+            I combine strategy, design, and code to build brands and digital experiences that leave a lasting
+            impression.
+          </div>
         </div>
-        <div class="hero-sub">
-          <strong>Designer & Developer</strong><br>from Nigeria.
-        </div>
-      </div>
-      <div class="hero-identity reveal">
-        Building brands, shipping products, and automating businesses. Intentional about every detail.
-      </div>
-      <div class="hero-actions reveal">
-        <a href="#work" class="btn-cta">View my work</a>
-        <a href="#contact" class="btn-outline">Let's talk</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- About -->
-  <section class="section" id="about">
-    <div class="container">
-      <h2 class="section-title reveal">Who am I?</h2>
-      <div class="bento">
-        <div class="card card-xl reveal"><div class="card-label">Background</div><div class="bio-name">Tsola</div><div class="bio-role">Designer & Developer — Vanilla Studios</div><div class="bio-text"><p>CS student at <strong>University of Port Harcourt</strong> (2023) and founder of <strong>Vanilla Studios</strong> — building AI products, brand systems, and web experiences.</p><p>From brand identities to AI‑powered Telegram bots and fintech tools. Based in <strong>Port Harcourt, Nigeria.</strong></p></div></div>
-        <div class="card reveal"><div class="photo-placeholder"><img src="pfp.jpg" alt="Tsola" style="width:100%;height:100%;object-fit:cover;border-radius:var(--radius-lg);" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><svg style="display:none" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div><div class="photo-label">Tsola Patrick</div></div>
-        <div class="card card-xl reveal"><div class="card-label">Full Skill Set</div><div class="tool-cat">Design & Creative</div><div class="pill-group"><span class="s-pill">Brand Identity</span><span class="s-pill">UI/UX</span><span class="s-pill">Creative Direction</span><span class="s-pill">Figma</span><span class="s-pill">Illustrator</span><span class="s-pill">Photoshop</span></div><div class="tool-cat">Development</div><div class="pill-group"><span class="s-pill">HTML/CSS</span><span class="s-pill">Tailwind CSS</span><span class="s-pill">JavaScript</span><span class="s-pill">Python</span><span class="s-pill">FastAPI</span></div><div class="tool-cat">Infra & AI</div><div class="pill-group"><span class="s-pill">Supabase</span><span class="s-pill">Pxxl App</span><span class="s-pill">Vercel</span><span class="s-pill">PostgreSQL</span></div></div>
-        <div class="card reveal"><div style="padding-bottom:16px"><div class="card-label">Based In</div><div class="loc-big">PORT<br>HARCOURT</div><div class="loc-sub">Nigeria</div></div><div class="loc-map"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d127672.62623988!2d6.9815!3d4.8156!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1069cd879d9e1f79%3A0xe5d5c3e7e6b4e7c!2sPort%20Harcourt%2C%20Nigeria!5e0!3m2!1sen!2sus!4v1" width="100%" height="100%" style="border:none;filter:grayscale(0.6) opacity(0.8);"></iframe></div></div>
-        <div class="card reveal"><div class="card-label">Favorite Quote</div><div class="quote-text">"Excellence is never an accident. It is the result of high intention and consistent effort."</div><div class="quote-attr">— Aristotle</div></div>
-        <div class="card card-xl reveal"><div class="card-label">Experience</div><div class="exp-item"><div class="exp-dot"></div><div><div class="exp-role">Founder & Creative Director</div><div class="exp-place">Vanilla Studios, Port Harcourt</div></div><div class="exp-year">2023–present</div></div><div class="exp-item"><div class="exp-dot"></div><div><div class="exp-role">Freelance Brand & Dev</div><div class="exp-place">Reality 3D Hub, Swyft Mobility, Bejaski Handyman</div></div><div class="exp-year">2023–present</div></div><div class="exp-item"><div class="exp-dot"></div><div><div class="exp-role">BSc Computer Science</div><div class="exp-place">University of Port Harcourt, Year 3</div></div><div class="exp-year">2023–2026</div></div></div>
-        <div class="card reveal"><div class="card-label">How I Work</div><div class="v-item"><div class="v-text"><strong>Excellence isn't optional.</strong> Every project gets the same level of craft.</div></div><div class="v-item"><div class="v-text"><strong>Design + code together.</strong> I build what I design.</div></div><div class="v-item"><div class="v-text"><strong>Built for anywhere.</strong> Products that feel considered and work globally.</div></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Work Section with updated text -->
-  <div style="border-top:1px solid var(--border)">
-  <section class="section" id="work">
-    <div class="container">
-      <div class="work-header">
-        <span class="section-eyebrow reveal">I've worked on</span>
-        <h2 class="section-title reveal">Projects that ship!</h2>
-        <p class="section-sub reveal">Check out the brands I've built, bots deployed and products live across Nigeria.</p>
-        <div class="work-filter reveal">
-          <button class="filter-btn active" onclick="filterProjects('all',this)">All</button>
-          <button class="filter-btn" onclick="filterProjects('product',this)">Product</button>
-          <button class="filter-btn" onclick="filterProjects('brand',this)">Branding</button>
-          <button class="filter-btn" onclick="filterProjects('dev',this)">Dev</button>
+        <div class="hero-actions reveal">
+          <a href="https://wa.me/9112393677" target="_blank" class="btn-cta">Let's talk</a>
+          <a href="/Tsola_Resume.pdf" target="_blank" class="btn-outline">
+            <svg viewBox="0 0 24 24"
+              style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;margin-right:6px">
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3" />
+            </svg>
+            Download CV
+          </a>
         </div>
       </div>
-      <div class="projects-grid" id="projectsGrid">
-        <div class="proj-card featured reveal" data-cat="dev" onclick="openCase('grahamwali')"><div class="proj-thumb"><iframe src="https://grahamwali.pxxl.click" scrolling="no" style="width:100%;height:100%;border:none;pointer-events:none;position:absolute;inset:0;"></iframe><div class="proj-type-badge">Web Dev</div></div><div class="proj-body"><div class="proj-name">Graham Wali Dental</div><div class="proj-desc">Full web presence for a Port Harcourt dental practice. Scroll animations, responsive design.</div><div class="proj-tags"><span class="proj-tag">HTML/CSS</span><span class="proj-tag">JS</span></div><div class="proj-cta">View Case Study</div></div></div>
-        <div class="proj-card reveal" data-cat="product dev" onclick="openCase('finora')"><div class="proj-thumb"><iframe src="https://finora.pxxl.pro" scrolling="no" style="width:100%;height:100%;border:none;pointer-events:none;position:absolute;"></iframe><div class="proj-type-badge">Fintech</div></div><div class="proj-body"><div class="proj-name">Finora</div><div class="proj-desc">Conversational AI financial tool for Nigeria. Speaks naira, informal income patterns.</div><div class="proj-tags"><span class="proj-tag">FastAPI</span><span class="proj-tag">Mono API</span></div><div class="proj-cta">View Case Study</div></div></div>
-        <div class="proj-card reveal" data-cat="product dev" onclick="openCase('voltstore')"><div class="proj-thumb"><div class="proj-num" style="opacity:0.18">03</div><div class="proj-type-badge">AI Bot</div></div><div class="proj-body"><div class="proj-name">VoltStore</div><div class="proj-desc">AI Telegram storefront with negotiation engine for gadget sellers.</div><div class="proj-tags"><span class="proj-tag">Python</span><span class="proj-tag">Groq</span></div><div class="proj-cta">View Case Study</div></div></div>
-        <div class="proj-card featured reveal" data-cat="brand" onclick="openCase('brand')"><div class="proj-thumb" style="background:var(--bg);"><div class="proj-type-badge">Brand Identity</div></div><div class="proj-body"><div class="proj-name">Brand Identity Work</div><div class="proj-desc">Visual identity systems, logos, colour systems for startups.</div><div class="proj-tags"><span class="proj-tag">Figma</span><span class="proj-tag">Illustrator</span></div><div class="proj-cta">View Work</div></div></div>
+    </section>
+
+    <div class="scroll-container" id="projectsGrid">
+    </div>
+
+    <section class="section" id="about">
+      <div class="hero-inner">
+        <h2 class="section-title reveal">About me?</h2>
+        <div class="about-text reveal">
+          <p class="about-tagline">I turn ideas into brands, brands into experiences, and curiosity into code.</p>
+          <p>I'm Tsola, a Nigerian <strong>multidisciplinary designer and full-stack developer</strong>
+            passionate about
+            building excellent digital experiences.
+          <p>With a background in <strong>branding, UI/UX design and creative direction</strong>,
+            I help businesses communicate clearly, stand out confidently, and connect with the people who matter most.
+          </p>
+          <p>What started as a passion for design has evolved into a broader journey across technology, product
+            thinking, and development. I'm constantly learning, building, and pushing myself to create work that's both
+            beautiful and functional.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="services">
+      <div class="hero-inner">
+        <div class="services-content">
+          <div class="services-text">
+            <h3 class="services-title">Brand Identity & Strategy</h3>
+            <p class="services-desc">I craft visual identities that communicate clearly, stand out confidently, and
+              connect with the people who matter most.</p>
+          </div>
+          <div class="services-dots"></div>
+        </div>
+        <div class="tools-scroll-container" id="toolsContainer">
+        </div>
+      </div>
+    </section>
+
+    <div style="border-top:1px solid var(--border)">
+      <section class="section" id="work">
+        <div class="hero-inner">
+          <div class="work-header">
+
+            <h2 class="section-title reveal">Featured Projects</h2>
+
+          </div>
+          <div class="work-grid" id="workGrid"></div>
+          <div style="text-align: center; margin-top: 48px;">
+            <a href="projects.html" class="work-card-btn btn-view-all"
+              style="align-self: center; display: inline-flex;">
+              View All Projects
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"
+                stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="9 18 15 12 9 6" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </section>
+    </div>
+
+
+    <div class="contact-form-section">
+      <h2 class="contact-form-title reveal">Contact Me.</h2>
+      <p class="contact-form-sub reveal">I read and respond to every message as soon as I can.</p>
+      <div class="form-row reveal"><input class="form-input" placeholder="Full Name"><input class="form-input"
+          placeholder="Email"></div>
+      <textarea class="form-textarea reveal" placeholder="Write your Message"></textarea>
+      <button class="form-submit reveal">Send Message</button>
+    </div>
+
+  </div>
+
+  <nav class="bottom-nav">
+    <a class="nav-item active" id="nav-home" href="#home" onclick="if(window.__closeCase) window.__closeCase();">
+      <img src="icons/home.png" alt="Home" style="width: 20px; height: 20px; object-fit: contain;">
+      <div class="nav-tip">Home</div>
+    </a>
+    <a class="nav-item" id="nav-about" href="https://www.instagram.com/tsola.ps/" target="_blank">
+      <img src="icons/instagram.png" alt="Instagram" style="width: 20px; height: 20px; object-fit: contain;">
+      <div class="nav-tip">Instagram</div>
+    </a>
+    <a class="nav-item" id="nav-work" href="https://www.tiktok.com/@tsola.yemi" target="_blank">
+      <img src="icons/titkok.png" alt="TikTok" style="width: 20px; height: 20px; object-fit: contain;">
+      <div class="nav-tip">TikTok</div>
+    </a>
+    <div class="nav-div"></div>
+    <a class="nav-item" id="nav-contact" href="#contact">
+      <img src="icons/email.png" alt="Email" style="width: 20px; height: 20px; object-fit: contain;">
+      <div class="nav-tip">Email</div>
+    </a>
+    <a href="https://wa.me/9112393677" target="_blank" class="nav-pill-cta">Let's Talk</a>
+  </nav>
+
+  <footer>
+    <div class="footer-giant-text">Hire Me!</div>
+    <div class="footer-copy">© 2026 Tsola. All rights reserved.</div>
+  </footer>
+
+  <div class="case-overlay" id="case-grahamwali">
+    <div class="page-container">
+      <div class="case-header">
+        <button class="case-back" onclick="window.__closeCase()">
+          <svg viewBox="0 0 24 24">
+            <polyline points="15 18 9 12 15 6" />
+          </svg> Back
+        </button>
+      </div>
+      <div class="case-body">
+        <h1 class="case-title-new">Graham Wali Dental</h1>
+        <p class="case-subtitle-new">Full web presence for a Port Harcourt dental practice. Scroll animations,
+          responsive design.</p>
+
+        <div class="case-details-card">
+          <div class="case-details-section">
+            <h3>Description</h3>
+            <p>A comprehensive web presence built from the ground up for a premier dental practice in Port Harcourt. The
+              project involved designing a custom interface that instils trust, while ensuring the technical foundation
+              is fast, accessible, and optimized for lead generation.</p>
+          </div>
+          <hr class="case-divider">
+          <div class="case-details-section">
+            <h3>Technologies</h3>
+            <div class="case-tech-tags">
+              <span class="tech-tag">Next.js</span>
+              <span class="tech-tag">TypeScript</span>
+              <span class="tech-tag">Node.js</span>
+              <span class="tech-tag">TailwindCSS</span>
+            </div>
+          </div>
+          <hr class="case-divider">
+          <div class="case-details-grid">
+            <div class="case-grid-item">
+              <h3>Date</h3>
+              <p>2024</p>
+            </div>
+            <div class="case-grid-item">
+              <h3>Type</h3>
+              <p>Web Platform</p>
+            </div>
+            <div class="case-grid-item">
+              <h3>Client</h3>
+              <p>Graham Wali Dental</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="case-actions-row">
+          <a href="https://grahamwali.pxxl.click" target="_blank" class="btn-cta case-visit-btn">
+            Visit Project <svg viewBox="0 0 24 24">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+              <polyline points="15 3 21 3 21 9"></polyline>
+              <line x1="10" y1="14" x2="21" y2="3"></line>
+            </svg>
+          </a>
+          <button class="btn-outline case-next-btn" onclick="window.__closeCase()">Next <svg viewBox="0 0 24 24">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg></button>
+        </div>
+
+        <div class="case-image-wrapper">
+          <img src="grahamwali.png" alt="Graham Wali Dental" onerror="this.style.display='none'" />
+        </div>
       </div>
     </div>
-  </section>
   </div>
 
-  <!-- CTA -->
-  <div class="cta-section" id="contact">
-    <div class="cta-inner">
-      <h2 class="cta-title reveal">Let's build <span class="dim">something</span><br>legendary.</h2>
-      <p class="cta-sub reveal">Have a vision in mind? I turn ideas into sharp digital products. Let's talk.</p>
-      <a href="mailto:tsolapatrick@gmail.com" class="btn-cta reveal" style="margin-top:8px;display:inline-flex">Start a Project</a>
+  <div class="case-overlay" id="case-finora">
+    <div class="page-container">
+      <div class="case-header">
+        <button class="case-back" onclick="window.__closeCase()">
+          <svg viewBox="0 0 24 24">
+            <polyline points="15 18 9 12 15 6" />
+          </svg> Back
+        </button>
+      </div>
+      <div class="case-body">
+        <h1 class="case-title-new">Finora</h1>
+        <p class="case-subtitle-new">Conversational AI financial tool for Nigeria. Speaks naira, informal income
+          patterns.</p>
+
+        <div class="case-details-card">
+          <div class="case-details-section">
+            <h3>Description</h3>
+            <p>Finora is a conversational finance assistant tailored specifically for the Nigerian market. It leverages
+              AI to understand informal income patterns, providing contextual financial advice and budgeting tools
+              directly through natural language interactions.</p>
+          </div>
+          <hr class="case-divider">
+          <div class="case-details-section">
+            <h3>Technologies</h3>
+            <div class="case-tech-tags">
+              <span class="tech-tag">Python</span>
+              <span class="tech-tag">Groq llama3</span>
+              <span class="tech-tag">Mono API</span>
+            </div>
+          </div>
+          <hr class="case-divider">
+          <div class="case-details-grid">
+            <div class="case-grid-item">
+              <h3>Date</h3>
+              <p>2025</p>
+            </div>
+            <div class="case-grid-item">
+              <h3>Type</h3>
+              <p>Fintech AI</p>
+            </div>
+            <div class="case-grid-item">
+              <h3>Client</h3>
+              <p>Personal Startup</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="case-actions-row">
+          <a href="https://finora.pxxl.pro" target="_blank" class="btn-cta case-visit-btn">
+            Visit Project <svg viewBox="0 0 24 24">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+              <polyline points="15 3 21 3 21 9"></polyline>
+              <line x1="10" y1="14" x2="21" y2="3"></line>
+            </svg>
+          </a>
+          <button class="btn-outline case-next-btn" onclick="window.__closeCase()">Next <svg viewBox="0 0 24 24">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg></button>
+        </div>
+
+        <div class="case-image-wrapper">
+          <img src="finora.png" alt="Finora" onerror="this.style.display='none'" />
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- Contact Form -->
-  <div class="contact-form-section">
-    <h2 class="contact-form-title reveal">Say something.</h2>
-    <p class="contact-form-sub reveal">I read and respond to every message as soon as I can.</p>
-    <div class="form-row reveal"><input class="form-input" placeholder="Full Name"><input class="form-input" placeholder="Email"></div>
-    <textarea class="form-textarea reveal" placeholder="Write your Message"></textarea>
-    <button class="form-submit reveal">Send Message</button>
+  <div class="case-overlay" id="case-voltstore">
+    <div class="page-container">
+      <div class="case-header">
+        <button class="case-back" onclick="window.__closeCase()">
+          <svg viewBox="0 0 24 24">
+            <polyline points="15 18 9 12 15 6" />
+          </svg> Back
+        </button>
+      </div>
+      <div class="case-body">
+        <h1 class="case-title-new">Blipit</h1>
+        <p class="case-subtitle-new">Find, book, and pay for advertising spaces online. Billboards, screens, venues, and
+          more.</p>
+
+        <div class="case-details-card">
+          <div class="case-details-section">
+            <h3>Description</h3>
+            <p>Blipit is a comprehensive web platform that revolutionizes the advertising industry by providing a
+              seamless
+              digital marketplace for booking and paying for advertising spaces. From billboards to digital screens
+              and venues, users can discover, reserve, and manage advertising placements all in one place.</p>
+          </div>
+          <hr class="case-divider">
+          <div class="case-details-section">
+            <h3>Technologies</h3>
+            <div class="case-tech-tags">
+              <span class="tech-tag">Next.js</span>
+              <span class="tech-tag">React.js</span>
+              <span class="tech-tag">PostgreSQL</span>
+              <span class="tech-tag">TypeScript</span>
+            </div>
+          </div>
+          <hr class="case-divider">
+          <div class="case-details-grid">
+            <div class="case-grid-item">
+              <h3>Date</h3>
+              <p>2026</p>
+            </div>
+            <div class="case-grid-item">
+              <h3>Type</h3>
+              <p>Web App</p>
+            </div>
+            <div class="case-grid-item">
+              <h3>Client</h3>
+              <p>Personal Startup</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="case-actions-row">
+          <span class="btn-cta case-visit-btn" style="opacity:0.5; cursor:not-allowed;">
+            Coming Soon <svg viewBox="0 0 24 24">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+              <polyline points="15 3 21 3 21 9"></polyline>
+              <line x1="10" y1="14" x2="21" y2="3"></line>
+            </svg>
+          </span>
+          <button class="btn-outline case-next-btn" onclick="window.__closeCase()">Next <svg viewBox="0 0 24 24">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg></button>
+        </div>
+
+        <div class="case-image-wrapper" style="background:var(--border);">
+          <img src="blipit.png" alt="VoltStore" onerror="this.style.display='none'" />
+        </div>
+      </div>
+    </div>
   </div>
 
-  <!-- Social Icons (functional only) -->
-  <div class="contact-links reveal">
-    <a class="contact-link" href="mailto:tsolapatrick@gmail.com" target="_blank"><span class="cl-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span></a>
-    <a class="contact-link" href="https://instagram.com/tsola.ps" target="_blank"><span class="cl-icon"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></span></a>
-    <a class="contact-link" href="https://twitter.com/madebytsola" target="_blank"><span class="cl-icon"><svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></span></a>
-    <a class="contact-link" href="https://github.com/tsolaps" target="_blank"><span class="cl-icon"><svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg></span></a>
+  <div class="case-overlay" id="case-brand">
+    <div class="page-container">
+      <div class="case-header">
+        <button class="case-back" onclick="window.__closeCase()">
+          <svg viewBox="0 0 24 24">
+            <polyline points="15 18 9 12 15 6" />
+          </svg> Back
+        </button>
+      </div>
+      <div class="case-body">
+        <h1 class="case-title-new">Visual Identity Work</h1>
+        <p class="case-subtitle-new">Visual identity systems, logos, colour systems for startups.</p>
+
+        <div class="case-details-card">
+          <div class="case-details-section">
+            <h3>Description</h3>
+            <p>A collection of comprehensive brand identity systems developed for emerging startups. This work spans
+              logo design, typography curation, colour palette development, and the creation of extensive brand
+              guidelines to ensure consistent visual communication.</p>
+          </div>
+          <hr class="case-divider">
+          <div class="case-details-section">
+            <h3>Technologies</h3>
+            <div class="case-tech-tags">
+              <span class="tech-tag">Figma</span>
+              <span class="tech-tag">Illustrator</span>
+              <span class="tech-tag">Photoshop</span>
+            </div>
+          </div>
+          <hr class="case-divider">
+          <div class="case-details-grid">
+            <div class="case-grid-item">
+              <h3>Date</h3>
+              <p>2023 - 2024</p>
+            </div>
+            <div class="case-grid-item">
+              <h3>Type</h3>
+              <p>Brand Identity</p>
+            </div>
+            <div class="case-grid-item">
+              <h3>Client</h3>
+              <p>Multiple Startups</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="case-actions-row">
+          <a href="#" target="_blank" class="btn-cta case-visit-btn">
+            View on Behance <svg viewBox="0 0 24 24">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+              <polyline points="15 3 21 3 21 9"></polyline>
+              <line x1="10" y1="14" x2="21" y2="3"></line>
+            </svg>
+          </a>
+          <button class="btn-outline case-next-btn" onclick="window.__closeCase()">Next <svg viewBox="0 0 24 24">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg></button>
+        </div>
+
+        <div class="case-image-wrapper">
+          <img src="bejaski.png" alt="Bejaski Brand Identity" onerror="this.style.display='none'" />
+        </div>
+        <div class="case-image-wrapper" style="margin-top: 20px;">
+          <img src="watchup.png" alt="Watchup Brand Identity" onerror="this.style.display='none'" />
+        </div>
+        <div class="case-image-wrapper" style="margin-top: 20px;">
+          <img src="suimart.png" alt="Suimart Brand Identity" onerror="this.style.display='none'" />
+        </div>
+      </div>
+    </div>
   </div>
-</main>
 
-<nav class="bottom-nav">
-  <a class="nav-item active" id="nav-home" href="#home"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><div class="nav-tip">Home</div></a>
-  <a class="nav-item" id="nav-about" href="#about"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg><div class="nav-tip">About</div></a>
-  <a class="nav-item" id="nav-work" href="#work"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg><div class="nav-tip">Work</div></a>
-  <div class="nav-div"></div>
-  <a class="nav-item" id="nav-contact" href="#contact"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><div class="nav-tip">Contact</div></a>
-</nav>
-<footer><div class="footer-copy">© 2026 Tsola. All rights reserved.</div></footer>
-
-<script>
-let isDark=false;
-function toggleTheme(){isDark=!isDark;document.documentElement.setAttribute('data-theme',isDark?'dark':'');document.getElementById('iconMoon').style.display=isDark?'none':'block';document.getElementById('iconSun').style.display=isDark?'block':'none';}
-document.getElementById('themeToggle').addEventListener('click',toggleTheme);
-const obs=new IntersectionObserver(e=>{e.forEach(el=>{if(el.isIntersecting)el.target.classList.add('visible');})},{threshold:0.1});
-document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
-document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'});}})});
-const secs=['home','about','work','contact'];
-window.addEventListener('scroll',()=>{let cur='home';secs.forEach(id=>{const el=document.getElementById(id);if(el&&window.scrollY>=el.offsetTop-120)cur=id;});document.querySelectorAll('.bottom-nav .nav-item').forEach(item=>{item.classList.toggle('active',item.id==='nav-'+cur);})});
-function filterProjects(cat,btn){document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');document.querySelectorAll('.proj-card').forEach(card=>{const cats=card.dataset.cat||'';card.style.display=(cat==='all'||cats.includes(cat))?'': 'none';});}
-function openCase(id){const ov=document.getElementById('case-'+id);if(ov){ov.classList.add('open');document.body.style.overflow='hidden';ov.scrollTop=0;}}
-function closeCase(){document.querySelectorAll('.case-overlay').forEach(o=>o.classList.remove('open'));document.body.style.overflow='';}
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeCase();});
-</script>
-
-<div class="case-overlay" id="case-grahamwali"><div class="case-header"><button class="case-back" onclick="closeCase()"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> Back</button><a class="case-visit" href="#">Visit</a></div><div class="case-body"><span class="case-eyebrow">Web Dev</span><h1 class="case-title">Graham Wali Dental</h1><div class="case-section"><p>Full website build for a dental clinic in PH.</p></div></div></div>
-<div class="case-overlay" id="case-finora"><div class="case-header"><button class="case-back" onclick="closeCase()"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> Back</button><a class="case-visit" href="#">Visit</a></div><div class="case-body"><span class="case-eyebrow">Fintech AI</span><h1 class="case-title">Finora</h1><div class="case-section"><p>Conversational finance assistant for Nigeria.</p></div></div></div>
-<div class="case-overlay" id="case-voltstore"><div class="case-header"><button class="case-back" onclick="closeCase()"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> Back</button><span class="case-visit" style="opacity:0.5">Telegram Bot</span></div><div class="case-body"><span class="case-eyebrow">AI E‑commerce</span><h1 class="case-title">VoltStore</h1><div class="case-section"><p>AI Telegram storefront with negotiation.</p></div></div></div>
-<div class="case-overlay" id="case-brand"><div class="case-header"><button class="case-back" onclick="closeCase()"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> Back</button><a class="case-visit" href="#">Behance</a></div><div class="case-body"><span class="case-eyebrow">Brand Identity</span><h1 class="case-title">Visual Identity Work</h1><div class="case-section"><p>Logos, systems, guidelines.</p></div></div></div>
 </body>
+
 </html>
