@@ -121,8 +121,14 @@ export function initProjects(): void {
 
     const speed = 0.5; // pixels per frame
     let direction = 1; // 1 = scrolling right, -1 = scrolling left
+    let isAutoScrolling = true;
+    let scrollTimeout: number | undefined;
 
     function autoScroll(): void {
+        if (!isAutoScrolling) {
+            requestAnimationFrame(autoScroll);
+            return;
+        }
 
         if (scrollContainer.scrollLeft <= 0) {
             direction = 1;
@@ -134,6 +140,31 @@ export function initProjects(): void {
 
         requestAnimationFrame(autoScroll);
     }
+
+    // Pause auto-scroll when user interacts with the page
+    window.addEventListener('scroll', () => {
+        isAutoScrolling = false;
+        if (scrollTimeout) {
+            window.clearTimeout(scrollTimeout);
+        }
+        scrollTimeout = window.setTimeout(() => {
+            isAutoScrolling = true;
+        }, 1000);
+    }, { passive: true });
+
+    // Pause on touch devices when touching the scroll container
+    scrollContainer.addEventListener('touchstart', () => {
+        isAutoScrolling = false;
+    }, { passive: true });
+
+    scrollContainer.addEventListener('touchend', () => {
+        if (scrollTimeout) {
+            window.clearTimeout(scrollTimeout);
+        }
+        scrollTimeout = window.setTimeout(() => {
+            isAutoScrolling = true;
+        }, 2000);
+    }, { passive: true });
 
     autoScroll();
 }
