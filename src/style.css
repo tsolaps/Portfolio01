@@ -40,6 +40,7 @@
     border-left: 1px solid var(--border-mid);
     border-right: 1px solid var(--border-mid);
     min-height: 100vh;
+    min-height: 100dvh;
 }
 
 html {
@@ -51,8 +52,10 @@ body {
     color: var(--fg);
     font-family: "Plus Jakarta Sans", sans-serif;
     min-height: 100vh;
+    min-height: 100dvh;
     padding-bottom: 100px;
     transition: background var(--transition), color var(--transition);
+    overflow-x: hidden;
 }
 
 a {
