@@ -121,15 +121,8 @@ export function initProjects(): void {
 
     const speed = 0.5; // pixels per frame
     let direction = 1; // 1 = scrolling right, -1 = scrolling left
-    let isAutoScrolling = true;
-    let scrollTimeout: number | undefined;
 
     function autoScroll(): void {
-        if (!isAutoScrolling) {
-            requestAnimationFrame(autoScroll);
-            return;
-        }
-
         if (scrollContainer.scrollLeft <= 0) {
             direction = 1;
         } else if (scrollContainer.scrollLeft >= scrollContainer.scrollWidth / 2 - speed) {
