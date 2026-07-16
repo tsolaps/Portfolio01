@@ -141,30 +141,7 @@ export function initProjects(): void {
         requestAnimationFrame(autoScroll);
     }
 
-    // Pause auto-scroll when user interacts with the page
-    window.addEventListener('scroll', () => {
-        isAutoScrolling = false;
-        if (scrollTimeout) {
-            window.clearTimeout(scrollTimeout);
-        }
-        scrollTimeout = window.setTimeout(() => {
-            isAutoScrolling = true;
-        }, 1000);
-    }, { passive: true });
 
-    // Pause on touch devices when touching the scroll container
-    scrollContainer.addEventListener('touchstart', () => {
-        isAutoScrolling = false;
-    }, { passive: true });
-
-    scrollContainer.addEventListener('touchend', () => {
-        if (scrollTimeout) {
-            window.clearTimeout(scrollTimeout);
-        }
-        scrollTimeout = window.setTimeout(() => {
-            isAutoScrolling = true;
-        }, 2000);
-    }, { passive: true });
 
     autoScroll();
 }
